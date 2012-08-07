@@ -18,7 +18,8 @@ sub insert {
         if (ref($dv) eq 'SCALAR' and $$dv =~ $fn_now) {
             $dv = DateTime->now;
         }
-        $self->set_column($column, $dv) if defined $dv;
+        my $accessor = $info->{accessor} || $column;
+        $self->$accessor($dv) if defined $dv;
     }
     $self->next::method(@_);
 }
